@@ -371,7 +371,8 @@ import $ from 'zepto';
         doc.scrollTop,doc.scrollHeight]
 
       let fragment = Doc.createDocumentFragment();
-     if(clientH + scrollTop + 250 > scrollHeight && scrollTop + 300 < 2000){
+    //  当滚动到指定位置加载默认图片和指定加载图片的位置
+     if(clientH + scrollTop + 50 > scrollHeight && scrollTop + 300 < 2000){
          $.ajax({
            url: './data.json',
            type: "get",
@@ -412,7 +413,7 @@ function delayLoad(imgList) {
     window.addEventListener('scroll',() => {
 
      for (let i = 0; i < imgList.length; i++) {
-
+        // 当滚动到指定位置加载图片
         if (scrollTop + clientHeight >= imgList[i].offsetTop + imgList[i].offsetHeight) {
             // 监听img
             let img = new Image;
