@@ -1,4 +1,4 @@
-# jd-
+# jdm
 原生js实现jd移动端
 
 git clone https://github.com/xlyh24/jd-.git
