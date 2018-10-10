@@ -1,88 +1,78 @@
 
+import '@/css/base.css';
+// import '@/css/index.css';
+import '@/css/index.less';
+import $ from 'zepto';
 
-// 初始化页面
- window.onload = function(){
+  // 热更新
+  if(module.hot){
+      module.hot.accept()
+  }
+  
+  const search = function(){
 
-        search();
+   let doc = document;
 
-        banner();
-
-        downTime();
-
-        move();
-
-        load();
-
-        infeed();
-      
-};		
-    
-   /*监听滚动事件*/
- 
-  var search = function(){
-
-    // Es6
-   var [search,banner] = [document.querySelector('.jd_header_box'),document.querySelector('.jd_banner')]
+   let [search,banner] = [doc.querySelector('.jd_header_box'),doc.querySelector('.jd_banner')];
 
    /*距离范围*/
-   var height = banner.offsetHeight; 
+   let height = banner.offsetHeight;
 
-   window.onscroll = function(){	
+   window.onscroll = () => {
       /*当前页面距离*/
-     var top = document.documentElement.scrollTop;
-   
-     var opacity = 0;
-       
+     let top = doc.documentElement.scrollTop;
+
+     let opacity = 0;
+
       if(top > height){
       	// 滚动距离超过轮播图距离，保持不变
       	opacity = 0.85;
       	}
-      else{
       	//当滚动距离随着离顶部距离变大，透明度变大
         opacity = 0.85*(top/height);
-      }
-    
+
       search.style.background = "rgba(216,80,92,"+opacity+")";
   }
-   
+
 };
 
-var banner=function(){
-	
-    var banner = document.querySelector('.jd_banner');
-    
-    var width = banner.offsetWidth;
-    
-    var imageBox=banner.querySelector('ul:first-child');
+ const banner = () =>{
+    // Es6
+    let doc = document;
+    let banner = doc.querySelector('.jd_banner');
 
-    var pointBox=banner.querySelector('ul:last-child');
+    let width = banner.offsetWidth;
 
-    var points=pointBox.querySelectorAll('li');
-    
+    let imageBox=banner.querySelector('ul:first-child');
+
+    let pointBox=banner.querySelector('ul:last-child');
+
+    let points=pointBox.querySelectorAll('li');
+
    /*添加过渡*/
-    var addTransition = function () {
+    let addTransition =  () =>{
         imageBox.style.webkitTransition = "all .2s";
         imageBox.style.transition = "all .2s";
     };
     /*删除过渡*/
-    var removeTransition = function () {
+    let removeTransition =  () => {
         imageBox.style.webkitTransition = "none";
         imageBox.style.transition = "none";
     };
     /*改变位置*/
-    var setTranslateX = function(translateX){
+    let setTranslateX = (translateX) => {
         imageBox.style.webkitTransform = "translateX("+translateX+"px)";
         imageBox.style.transform = "translateX("+translateX+"px)";
     };
-       
+
 
    // 无缝滚动和无缝滑动 (定时器，过渡，位移)
-   var index = 1;
-   var timer = setInterval(function(){
+   let index = 1;
+   let timer = setInterval(function(){
            index++;
-           
-   	    addTransition();        
-      
+
+   	    addTransition();
+
         setTranslateX(-index*width);
 
    }, 3000);
@@ -92,18 +82,18 @@ var banner=function(){
          //无缝滚动
           if(index>=9){
           	 index=1;
-        
+
    	     removeTransition();
-     
-         setTranslateX(-index*width);        	 
+
+         setTranslateX(-index*width);
           }
           //无缝滑动
           else if(index<=0){
           	//定位到第八张
-             index=8;  
+             index=8;
             // 清除过渡
             removeTransition();
-            setTranslateX(-index*width);    
+            setTranslateX(-index*width);
           }
          /*index 1-8  索引范围*/
         /*point 0-7 */
@@ -111,27 +101,26 @@ var banner=function(){
    });
 
        /*.点随之滚动起来     （改变当前点元素的样式）*/
-    var setPoint = function(){
+    let setPoint = () => {
         /*把所有点的样式清除*/
-        for(var i = 0 ; i < points.length ; i ++){
+        for(let i = 0 ; i < points.length ; i ++){
             points[i].className = " ";
            /* points[i].classList.remove('now');*/
         }
-        //当前的加上样式
         points[index-1].className = "now";
     };
 
      /*图片滑动 touch事件）*/
 
      //记录开始的x坐标
-    var startX = 0;
-    var moveX = 0;
-    var distanceX = 0;
+    let startX = 0;
+    let moveX = 0;
+    let distanceX = 0;
     //  记录是否点击
-    var isMove = false;
+    let isMove = false;
 
     banner.addEventListener('touchstart',function(e){
-     
+
         clearInterval(timer);
         // 当前的触摸点 touches
         //记录当前位置
@@ -145,10 +134,10 @@ var banner=function(){
 
         /*算出当前图片盒子需要定位的位置*/
         /*将要去做定位*/
-        var currX = -index*width + distanceX;
-       
+        let currX = -index*width + distanceX;
+
         removeTransition();
-        
+
         setTranslateX(currX);
 
     });
@@ -181,68 +170,64 @@ var banner=function(){
         /*添加定时器*/
         clearInterval(timer);
         timer = setInterval(function(){
-            /*箱子滚动*/
+
             index  ++ ;
             /*定位  过渡来做定位的  这样才有动画*/
-          
             addTransition();
-          
+
             setTranslateX(-index*width);
         },4000);
     });
-}     
+}
 
-   
+
    // 横向滑动
-    var infeed = function(){
-     
-    var parent = document.querySelector('.product_box_con');
-    var banner = document.querySelector('#infeed');
+ const infeed = function(){
 
-    var parentWidth = parent.offsetWidth;
-    var bannerWidth = banner.offsetWidth;
+    let doc = document;
+    let parent = doc.querySelector('.product_box_con');
+    let banner = doc.querySelector('#infeed');
+
+    let parentWidth = parent.offsetWidth;
+    let bannerWidth = banner.offsetWidth;
+
+     let addTransition = function () {
+         banner.style.webkitTransition = "all .2s";
+         banner.style.transition = "all .2s";
+     };
+
+     let removeTransition = function () {
+         banner.style.webkitTransition = "none";
+         banner.style.transition = "none";
+     };
+
+     let setTranslateX = function (translateX) {
+         banner.style.webkitTransform = "translateX(" + translateX + "px)";
+         banner.style.transform = "translateX(" + translateX + "px)";
+     };
 
     //最大的定位区间
-    var maxPosition = 0;
+    let maxPosition = 0;
     //最小的定位区间
-    var minPosition = parentWidth-bannerWidth;
-
-   
+    let minPosition = parentWidth-bannerWidth;
       /*滑动区间*/
-      // 最大滑动区间 
-    var maxSwipe = maxPosition + 100; 
-      // 最小滑动区间       
-    var minSwipe = minPosition - 100;         
-
-   
-    var addTransition = function () {
-        banner.style.webkitTransition = "all .2s";
-        banner.style.transition = "all .2s";
-    };
-
-    var removeTransition = function () {
-        banner.style.webkitTransition = "none";
-        banner.style.transition = "none";
-    };
-
-    var setTranslateX = function(translateX){
-        banner.style.webkitTransform = "translateX("+translateX+"px)";
-        banner.style.transform = "translateX("+translateX+"px)";
-    };
-
-    var startX = 0;
-    var moveX = 0;
-    var distanceX = 0;
+      // 最大滑动区间
+    let maxSwipe = maxPosition + 100;
+      // 最小滑动区间
+    let minSwipe = minPosition - 100;
  
+    let startX = 0;
+    let moveX = 0;
+    let distanceX = 0;
+
     /*记录当前定位*/
-    var currX = 0;
+    let currX = 0;
 
     banner.addEventListener('touchstart',function(e){
 
         startX = e.touches[0].clientX;
-
     });
-
+    
     banner.addEventListener('touchmove',function(e){
 
         moveX = e.touches[0].clientX;
@@ -258,17 +243,17 @@ var banner=function(){
             /*做定位*/
             setTranslateX(currX + distanceX);
         }
-       
+
     })
 
     /*避免模拟器上的bug问题   事件冒泡机制*/
-    window.addEventListener('touchend',function(e){
+    window.addEventListener('touchend',function(){
         /*3.在一定的区间内 做定位     定位区间*/
         /*将要定位的位置 大于  最大定位的时候*/
         if((currX + distanceX) > maxPosition){          // 左边吸附回去
-       
+
             currX = maxPosition;
-       
+
             addTransition();
 
             setTranslateX(currX);
@@ -295,26 +280,26 @@ var banner=function(){
 
   }
 
-
-var downTime = function(){
-    
+// 倒计时
+  const downTime = function(){
+    let doc = document;
     /*需要倒计时的时间*/
-    var time = 5 * 60 * 60 ;
-    var skTime = document.querySelector('.sk_time');
-    var spans = skTime.querySelectorAll('span');
+    let time = 5 * 60 * 60 ;
+    let skTime = doc.querySelector('.sk_time');
+    let spans = skTime.querySelectorAll('span');
     //初始化
     setInterval(timer,1000);
 
-    function timer(){     
+    function timer(){
       	if(time <= 0){
             clearInterval(timer);
             return false;
         }
         time -- ;
 
-        var h = Math.floor(time/3600);
-        var m = Math.floor(time%3600/60);
-        var s = time%60;
+        let h = Math.floor(time/3600);
+        let m = Math.floor(time%3600/60);
+        let s = time%60;
 
         spans[0].innerHTML = Math.floor(h/10);
         spans[1].innerHTML = h%10;
@@ -327,12 +312,12 @@ var downTime = function(){
     };
     timer();
 
-}	
+}
 
 
-   function move(){
-
-         var data = [
+   function move() {
+         let doc = document;
+         let data = [
             {msg:'小藏獒给奶奶养了一个月，再见却不认识了'},
             {msg:'为什么现在很多的车，都取消了雾灯？'},
             {msg:'花十万装修的新房，客厅太好看了！'},
@@ -340,114 +325,137 @@ var downTime = function(){
             {msg:'买了20年鞋子，才知道鞋盒里白布这样'},
             {msg:'小藏獒给奶奶养了一个月，再见却不认识了'}
          ];
-        var box1 = document.querySelector('.box1');
-        var box = document.querySelector('.box');
-         
-        
-        for(let i = 0; i< data.length;i++){
-            let odiv = document.createElement('div');
-            odiv.innerHTML += '<li class="inner">'+data[i].msg+'</li>';
-            box.appendChild(odiv)
+        let box1 = doc.querySelector('.box1');
+        let box = doc.querySelector('.box');
+        let index = 0;
+        let timer;
+        let fragment = doc.createDocumentFragment();
+
+       for (const iterator of data) {
+           box.innerHTML += '<li class="inner">' + iterator.msg + '</li>';
+           fragment.appendChild(box);
         }
+        box1.appendChild(fragment)
 
-        var index = 0;
-        timer = setInterval(() => {   
+      
+       timer = setInterval(() => {
+         index++;
 
-           index++;
-
-           box.style.transition = 'all 0.6s';               
+           box.style.transition = 'all 0.6s';
           // 位移
-           box.style.transform = 'translateY('+(-index*box1.offsetHeight)+'px)';                   
-        }, 3000);
-
-        box.addEventListener('transitionend',function(){     
+           box.style.transform = 'translateY('+(-index*box1.offsetHeight)+'px)';
+        },3000)
+       
+        box.addEventListener('transitionend',() =>{
 
              if(index >= 5){
 
                index = 0;
 
-             box.style.transition = 'none';                
+             box.style.transition = 'none';
              // 位移
              box.style.transform='translateY('+(-index*box1.offsetHeight)+'px)';
 
              }
-        });           
+        });
   };
 
   // 图片加载
- function load(){ 
-    
+ function load(){
+
+     let doc = document.documentElement;
+     let Doc = document;
   window.addEventListener('scroll',function(){
-   
-    var [html,clientH,scrollTop,scrollHeight] = [null,document.documentElement.clientHeight,
-        document.documentElement.scrollTop,document.documentElement.scrollHeight]
-        
+
+    let [html,clientH,scrollTop,scrollHeight] = [null,doc.clientHeight,
+        doc.scrollTop,doc.scrollHeight]
+
+      let fragment = Doc.createDocumentFragment();
      if(clientH + scrollTop + 250 > scrollHeight && scrollTop + 300 < 2000){
          $.ajax({
-           url: "data.json",
+           url: './data.json',
            type: "get",
            dataType: "json",
            data: null,
            cache: false,  // 是否走缓存item
-           success: function (data) {
-               data.forEach((item) => {        
-                   html = `<div><img src="images/dafult1-1.png" data-src="${item.img}" class="Img">
-                   <p class="product_info">${item.title}</p>
-                       <span>${item.price}</span></div>` 
-                   $('.recommend').append(html)                                                    
-               });                 
-            }      
-           });      
-       } 
-       var parent = document.querySelector('.recommend');
-       var Img = parent.querySelectorAll('img');
+           success(data) {
+             for (let i = 0; i < data.length; i++) {
+                    let div = Doc.createElement('div');
+                    div.innerHTML += `<img src="./images/dafult1-1.png" data-src="${data[i].img}" class="Img">
+                <p class="product_info">${data[i].title}</p>
+                    <span class="price">${data[i].price}</span>`
+                    fragment.appendChild(div)
+               };
+               Doc.querySelector('.recommend').appendChild(fragment)
+            },
+            error(err) {
+               console.log(err);
+            }
+           });
+        
+       }
+       let parent = Doc.querySelector('.recommend');
+       let Img = parent.querySelectorAll('img');
        //console.log(Img)
-       delayLoad(Img);       
-    });      
-   
- }    
+       delayLoad(Img);
+    });
+
+ }
 
 function delayLoad(imgList) {
 
-    // Es6
-    let [scrollTop,clientHeight,timer] = [document.documentElement.scrollTop,
-                                          document.documentElement.clientHeight,null]
-    
-    window.addEventListener('scroll',function(){
+    let doc = document;
 
-     for (var i = 0; i < imgList.length; i++) {
+    let [scrollTop,clientHeight,timer] = [doc.documentElement.scrollTop,
+                                          doc.documentElement.clientHeight,null]
+
+    window.addEventListener('scroll',() => {
+
+     for (let i = 0; i < imgList.length; i++) {
 
         if (scrollTop + clientHeight >= imgList[i].offsetTop + imgList[i].offsetHeight) {
             // 监听img
-            var img = new Image;
+            let img = new Image;
+            
             img.src = imgList[i].getAttribute("data-src");
             img.index = i;
             // 加载img onload事件
             img.onload = function () {
+                
                 imgList[this.index].src = this.src;
                 //img = null;
             }
-          
+
           imgList[i].style.opacity = 1;
-          
+
          }
        }
-    })  
+    })
 }
 
   // 改变窗口重新刷新
-    window.addEventListener("resize",function(){
-         
-        window.location.reload(); 
+    window.addEventListener("resize",() => {
+
+        window.location.reload();
 
     },false)
 
-  
+
+
+search();
+
+banner();
+
+downTime();
+
+move();
+
+load();
+
+infeed();
 
 
 
-   
-    
-    
-   
+
+
 

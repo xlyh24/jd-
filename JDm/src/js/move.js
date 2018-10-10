@@ -1,5 +1,8 @@
 // JavaScript Document
-
+	 // 热更新
+	  if(module.hot){
+	      module.hot.accept()
+	  }
 
 function startMove(obj,json,times,fx,fn,fnMove){
 	var iCur = {};
