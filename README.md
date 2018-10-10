@@ -15,3 +15,5 @@ npm run server
 css预编译:less
 
 插件:better-scroll,zepto
+
+https://github.com/xlyh24/jdm/blob/master/JDm/gif/20181010_192749.gif
