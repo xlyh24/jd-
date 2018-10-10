@@ -367,12 +367,11 @@ import $ from 'zepto';
      let Doc = document;
   window.addEventListener('scroll',function(){
 
-    let [html,clientH,scrollTop,scrollHeight] = [null,doc.clientHeight,
+      let [html,clientH,scrollTop,scrollHeight] = [null,doc.clientHeight,
         doc.scrollTop,doc.scrollHeight]
-
       let fragment = Doc.createDocumentFragment();
     //  当滚动到指定位置加载默认图片和指定加载图片的位置
-     if(clientH + scrollTop + 50 > scrollHeight && scrollTop + 300 < 2000){
+     if(clientH + scrollTop + 100 > scrollHeight && scrollTop< 2000){
          $.ajax({
            url: './data.json',
            type: "get",
@@ -393,7 +392,6 @@ import $ from 'zepto';
                console.log(err);
             }
            });
-        
        }
        let parent = Doc.querySelector('.recommend');
        let Img = parent.querySelectorAll('img');
@@ -409,9 +407,8 @@ function delayLoad(imgList) {
 
     let [scrollTop,clientHeight,timer] = [doc.documentElement.scrollTop,
                                           doc.documentElement.clientHeight,null]
-
     window.addEventListener('scroll',() => {
-
+      
      for (let i = 0; i < imgList.length; i++) {
         // 当滚动到指定位置加载图片
         if (scrollTop + clientHeight >= imgList[i].offsetTop + imgList[i].offsetHeight) {
@@ -420,9 +417,9 @@ function delayLoad(imgList) {
             
             img.src = imgList[i].getAttribute("data-src");
             img.index = i;
+           
             // 加载img onload事件
             img.onload = function () {
-                
                 imgList[this.index].src = this.src;
                 //img = null;
             }
